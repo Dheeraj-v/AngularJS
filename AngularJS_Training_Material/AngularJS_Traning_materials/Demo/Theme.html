@@ -1,0 +1,277 @@
+<!DOCTYPE html> 
+<html lang="en" ng-app="angularPOC">
+	<head>
+		<meta charset="UTF-8">
+		<title>Pipeline Resource Monitoring System</title>
+		<meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0">
+
+		<!-- Latest compiled and minified CSS -->
+		<link rel="stylesheet" href="css/bootstrap.min.css">
+		<link rel="stylesheet" href="css/styles.css">
+		<link rel="stylesheet" href="css/font-awesome.css">
+
+		<!-- Latest compiled and minified JavaScript -->
+		<script src="js/jquery.min.js"></script>
+		<!-- JqueryUI Added for Datetime Picker -->
+		<script src="js/jquery-ui.min.js"></script>
+		<script src="js/angular.min.js"></script>
+		<script src="js/bootstrap.min.js"></script>		
+		<script src="js/MainController.js"></script>
+
+	</head>
+	<body ng-controller="MainController">		
+		<div id="loaderPosition" ng-show="isLoading"></div>
+		<div id="loadingMessage" ng-show="isLoading">Loading...</div>
+		<header class="navbar navbar-inverse navbar-fixed-top" role="navigation">
+		    <div class="navbar-inner">
+		       <div class="container">
+		        <!-- Brand and toggle get grouped for better mobile display -->
+		        <div class="navbar-header">
+		          <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navbarCollapse">
+		            <span class="sr-only">Toggle navigation</span>
+		            <span class="icon-bar"></span>
+		            <span class="icon-bar"></span>
+		            <span class="icon-bar"></span>
+		          </button>
+		          <a class="navbar-brand" href="#">Resource Monitor</a>
+		        </div>
+		        <div id="navbarCollapse" class="collapse navbar-collapse">
+		          <ul class="nav navbar-nav">
+		            <li class="active"><a href="#">Home</a></li>            
+		            <li><a href="#">Resource List</a></li>
+		            <li><a href="#">Resource Details</a></li>          	
+		            </li>
+		            <li class="dropdown">
+		                <a href="#" class="dropdown-toggle" id="themesSelection" data-toggle="dropdown">Themes<b class="caret"></b></a>
+		                <ul class="dropdown-menu">
+		                  <li><a href="#">Black</a></li>
+		                  <li><a href="#">Blue</a></li>
+		                  <li><a href="#">Cyan</a></li>
+		                  <li><a href="#">Green</a></li>
+		                  <li><a href="#">Orange</a></li>
+		                  <li><a href="#">Ping</a></li>
+		                  <li><a href="#">Purple</a></li>
+		                  <li><a href="#">Red</a></li>
+		                  <li><a href="#">Yellow</a></li>
+		                </ul>
+		            </li>
+		          </ul>
+		        </div>
+		      </div>
+		    </div>
+		</header>
+		<div class="body">
+			<form name="resourceform" id="app-form" class="app-form" ng-show="addorEdit" novalidate role="form">
+				<header>Pipeline Resource Monitoring System</header>
+				<fieldset>
+					<section>
+						<label class="label"><span class="star">*</span>Name</label>
+						<span class="label label-danger" ng-show="submitted && resourceform.empName.$error.required">Enter Employee Name</span>
+						<label class="input">
+							<input  type="text" class="form-control" name="empName" ng-model="empName" placeholder="Enter Name" focus-on="empName" required>
+						</label>
+						<label class="label"><span class="star">*</span>Current Company</label>
+						<span class="label label-danger" ng-show="submitted && resourceform.currentCompany.$error.required">Enter Company Name</span>
+						<label class="input">
+							<input type="text" ng-model="currentCompany" name="currentCompany" placeHolder="Current Company Name" focus-on="currentCompany" required>
+						</label>
+						<label class="label"><span class="star">*</span>Location</label>	
+						<span class="label label-danger" ng-show="submitted && resourceform.location.$error.required">Enter Location</span>
+						<label class="input">
+							<input type="text" ng-model="location" name="Location" placeHolder="Location" focus-on="location" required>
+						</label>
+						<label class="label"><span class="star">*</span>Contact Number</label>	
+						<span class="label label-danger" ng-show="submitted && resourceform.contactNumber.$error.required">Enter Contact Number</span>
+						<label class="input">
+							<input type="number" ng-model="contactNumber" name="contactNumber" placeHolder="Contact Number" focus-on="contactNumber" onkeypress="return isNumberKey(event)" required>
+						</label>
+						<label class="label">For Which Project</label>	
+						<label class="input">
+							<input type="text" ng-model="whichProject" placeHolder="For Which Project" focus-on="whichProject">
+						</label>
+						<label class="label">Overall Status</label>	
+						<label class="input">
+							<input type="text" ng-model="overallStatus" placeHolder="Overall Status" focus-on="overallStatus">
+						</label>
+						<label class="label"><span class="star">*</span>Core Skills</label>	
+						<span class="label label-danger" ng-show="submitted && resourceform.coreSkills.$error.required">Enter Core Skills</span>
+						<label class="input">
+							<input type="text" ng-model="coreSkills" name="coreSkills" placeHolder="Core Skills" focus-on="coreSkills" required>
+						</label>
+						<label class="label">Suitable for Other</label>	
+						<label class="input">
+							<input type="text" ng-model="suitableforOther" placeHolder="Suitable for Other" focus-on="suitableforOther">
+						</label>
+						<label class="label">Profile Received</label>	
+						<label class="input">
+							<input type="text" ng-model="profileReceived" placeHolder="Profile Received" focus-on="profileReceived">
+						</label>
+						<label class="label">Screening</label>
+						<label class="input">
+							<input type="text" ng-model="screening" placeHolder="Screening" focus-on="screening">
+						</label>
+						<label class="label">Screening Mode</label>
+						<label class="input">
+							 <input type="text" ng-model="screeningMode" placeHolder="Screening Mode" focus-on="screeningMode">
+						</label>
+						<label class="label">Screening Status</label>
+						<label class="input">
+							<input type="text" ng-model="screeningStatus" placeHolder="Screening Status" focus-on="screeningStatus">
+						</label>
+						<label class="label">Tech F2F Interview Date</label>
+						<label class="input">
+							<i class="icon-append fa fa-calendar"></i>
+							<input type="text" id="f2fInterviewDate" ng-model="f2fInterviewDate" placeHolder="F23 Interview Date" focus-on="f2fInterviewDate">
+						</label>
+						<label class="label">Tech Interview Status</label>
+						<label class="input">
+							<input type="text" ng-model="interviewStatus" placeHolder="Interview Status" focus-on="interviewStatus">
+						</label>
+						<label class="label">DOJ</label>
+						<label class="input">
+							<i class="icon-append fa fa-calendar"></i>
+							<input type="text" id="doj" ng-model="doj" placeHolder="DOJ">
+						</label>
+						<label class="label">RR/SO</label>	
+						<label class="input">
+							<input type="text" ng-model="rrso" placeHolder="RR/SO" focus-on="rrso">
+						</label>
+						<label class="label"><span class="star">*</span>Grade</label>
+						<span class="label label-danger" ng-show="submitted && resourceform.grade.$error.required">Enter Grade</span>
+						<label class="input">
+							<input type="text" ng-model="grade" name="grade" placeHolder="Grade" focus-on="grade" required>
+						</label>
+						<label class="label">Comments</label>	
+						<label class="input">
+							<input type="text" ng-model="comments" placeHolder="Comments" focus-on="comments">
+						</label>
+						<label class="label"><span class="star">*</span>Interviewed By</label>	
+						<span class="errorMsg" ng-show="submitted && resourceform.interviewedBy.$error.required">Enter Interviewed By</span>
+						<label class="input">
+							<input type="text" ng-model="interviewedBy" name="interviewedBy" placeHolder="Interviewed By" focus-on="interviewedBy" required>
+						</label>
+					</section>
+				</fieldset>
+				<div class="primaryAction">					
+					<button type="button" class="button button-secondary" ng-click="cancel()">Cancel</button>
+					<button type="button" class="button button-secondary" ng-click="reset()">Reset</button>
+					<button type="submit" class="button" ng-click="saveResourceInfo(resourceform)">Submit</button>
+				</div>
+			</form>
+		</div>
+		<div class="container master-container" ng-show="showGrid" >
+			<div class="alert alert-info fade in" data-alert="alert">
+		      <h3>
+		        <strong>
+		          Pipeline Resource Monitoring System
+		        </strong>
+		      </h3>      
+		    </div>
+			<div class="dataGrid">
+			    <div class="searchFieldset">		    	
+			        <label class="control-label" style="float:left;padding:5px;">
+			          Search:
+			        </label>
+			        <input type="text"  class="form-control" style="width:30%;float:left;" ng-model="searchText" />
+			        <button type="submit" class="btnAddNewResource" ng-click="addNewResource()">Add New Resource</button>
+			    </div>      
+			    <br />
+			    <table id="resourceTable"  class="table table-bordered">
+			        <thead>
+			          <tr>
+			            <th ng:click="orderByField='empName'; reverseSort = !reverseSort">Candidate Name  <i ng-class="selectedCls('empName')"></i></th> 
+			            <th ng:click="orderByField='currentCompany';reverseSort = !reverseSort">Current Company <i ng-class="selectedCls('currentCompany')"></i></th>
+			            <th ng:click="orderByField='location'; reverseSort = !reverseSort">Location <i ng-class="selectedCls('location')"></i></th>
+			            <th ng:click="orderByField='contactNumber'; reverseSort = !reverseSort">Contact Number  <i ng-class="selectedCls('contactNumber')"></i></th>
+			            <th ng:click="orderByField='coreSkills'; reverseSort = !reverseSort">Core Skills  <i ng-class="selectedCls('coreSkills')"></i></th>
+			            <th ng:click="orderByField='grade'; reverseSort = !reverseSort">Grade <i ng-class="selectedCls('grade')"></i></th>
+			            <th>Edit</th>
+			            <th>Delete</th>
+			          </tr>
+			        </thead>
+			        <tbody>
+			          <tr ng-repeat="resourceInfo in resourceInfos | orderBy:orderByField:reverseSort | filter:searchText">
+			            <td><a href="http://ciwd.cognizant.com/exact/cipeople" target="_blank">{{resourceInfo.empName}}</a></td>
+			            <td>{{resourceInfo.currentCompany}}</td>
+			            <td>{{resourceInfo.location}}</td>
+			            <td>{{resourceInfo.contactNumber}}</td>
+			            <td>{{resourceInfo.coreSkills}}</td>
+			            <td>{{resourceInfo.grade}}</td>
+			            <td><a ng-click="editRecord($index)">Edit</a></td>
+			            <td><a ng-click="deleteRecord($index)">Delete</a></td>
+			          </tr>
+			          <tr ng-show="resourceInfos.length==0">
+			          	<td colspan="8" style="text-align:center;">No Resource Found</td>
+			          </tr>
+			        </tbody>
+			    </table>
+			
+			</div>
+		</div>
+		<div class="footer">
+		    <p>@ 2014 Cognizant, all rights reserved </p>
+		    <p><a href="http://www.cognizant.com">http://www.cognizant.com</a></p>
+		</div>
+		<script type="text/javascript">
+			$(function()
+			{
+				// * Datepicker *//
+				$('#f2fInterviewDate').datepicker({
+					dateFormat: 'mm-dd-yy'
+				});
+				$('#doj').datepicker({
+					dateFormat: 'mm-dd-yy'
+				});
+				// * Theme Apply *//
+				$("ul.dropdown-menu li a").click(function() {
+					var selectedBG = this.innerHTML;
+					if(selectedBG=='Red'){
+	        			$('body').removeClass().addClass('bg-red');
+	        			loadingAnimation();
+		        	}else if(selectedBG=='Green'){
+		        		$('body').removeClass().addClass('bg-green');
+		        		loadingAnimation();
+		        	}else if(selectedBG=='Yellow'){
+		        		$('body').removeClass().addClass('bg-yellow');
+		        		loadingAnimation();
+		        	}else if(selectedBG=='Orange'){
+		        		$('body').removeClass().addClass('bg-orange');
+		        		loadingAnimation();
+		        	}else if(selectedBG=='Cyan'){
+		        		$('body').removeClass().addClass('bg-cyan');
+		        		loadingAnimation();
+		        	}else if(selectedBG=='Ping'){
+		        		$('body').removeClass().addClass('bg-pink');
+		        		loadingAnimation();
+		        	}else if(selectedBG=='Purple'){
+		        		$('body').removeClass().addClass('bg-purple');
+		        		loadingAnimation();
+		        	}else if(selectedBG=='Blue'){
+		        		$('body').removeClass().addClass('bg-blue');
+		        		loadingAnimation();
+		        	}else if(selectedBG=='Black'){
+		        		$('body').removeClass().addClass('bg-black');
+		        		loadingAnimation();
+		        	}
+			    });			    
+			});
+			// * Numeric Validtion * //
+			function isNumberKey(evt) {
+				var charCode = (evt.which) ? evt.which : event.keyCode
+				if (charCode > 31 && (charCode < 48 || charCode > 57))
+				    return false;
+				return true;
+			}
+			// * Loader *//
+			function loadingAnimation(){
+				var scope = angular.element($("#loaderPosition")).scope();
+			    scope.$apply(function(){
+			        scope.isLoading = true;
+			    });
+			    setTimeout(function(){scope.$apply(function(){
+			        scope.isLoading = false;
+			    });},1000);				
+			}
+		</script>
+	</body>
+</html>

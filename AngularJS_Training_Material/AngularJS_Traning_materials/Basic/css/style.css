@@ -1,0 +1,6 @@
+.done-true {text-decoration: line-through;color: grey;}
+.strike {text-decoration: line-through;}
+.bold {font-weight: bold;}
+.mid-cont{margin-top:20px;width: 650px;}
+h3.ng-scope ,.mid-cont h3{color: #1E0FBE;}
+button { margin-bottom:9px; }

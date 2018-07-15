@@ -1,0 +1,108 @@
+<!doctype html>
+<html ng-app="App">
+  <head>    
+    <link rel="stylesheet" type="text/css" href="css/style.css">
+    <link rel="stylesheet" type="text/css" href="css/bootstrap.min.css">
+    <script type="text/javascript" src="js/jquery.min.js"></script>
+    <script type="text/javascript" src="js/angular.min.js"></script>
+    <script type="text/javascript" src="js/ui-bootstrap-tpls-0.5.0.js"></script>
+    <script type="text/javascript" src="js/scripts.js"></script>
+  </head>
+  <body>
+  <div class="navbar-inner"><a class="brand" href="#"><img class="logo" src="images/logo.png"></a></div>
+  <div class="container">
+    <div class="mid-cont">
+        <!-- ngBind -->
+		<h3>ngBind</h3>
+		{{name}}
+	<div class ="well">
+		Name:
+		<input type="text" ng-model="name" /> {{ name }}
+	</div>
+
+        <!-- Looping with the ng-repeat Directive -->
+		<h3>Looping with the ng-repeat Directive</h3>
+        	<div class ="well" ng-init="customers=[{name:'Jeba',city: 'Nellai'}, {name:'Janani',city: 'Madurai'},{name:'Raj',city: 'Trichy'},{name:'Ganesh',city: 'Chennai'}]" >
+
+
+		<ul>
+			<li ng-repeat="cust in customers"> {{ cust.name }} - {{ cust.city }} </li>
+		</ul>
+	</div>   
+
+        <!--Looping Order by city -->
+		<h3>Looping Order by city</h3>
+        	<div  class ="well" ng-init="customers=[{name:'Jeba',city: 'Nellai'}, {name:'Janani',city: 'Madurai'},{name:'Raj',city: 'Trichy'},{name:'Ganesh',city: 'Chennai'}]" >
+
+				<ul>
+				<li ng-repeat="cust in customers | orderBy:'name' "> {{ cust.name }} - {{ cust.city }} </li>
+				</ul>
+			</div>
+
+         <!-- Filters -->
+		<h3>Filters</h3>
+         	<div class ="well"  ng-init="customers=[{name:'Jeba',city: 'Nellai'}, {name:'Janani',city: 'Madurai'},{name:'Raj',city: 'Trichy'},{name:'Ganesh',city: 'Chennai'}]" >
+
+				<input type="text" ng-model="keyword" />
+				<ul>
+				<li ng-repeat="cust in customers | filter:keyword "> {{ cust.name }} - {{ cust.city }} </li>
+				</ul>
+			</div >
+
+		<!-- ng-controller -->
+	    <h3>ng-controller</h3>
+
+		<div class ="well" ng-controller="EmailController">
+			Email:<input type="text" ng-model="newemail"/>
+			<button class="btn-primary" ng-click="add()">Add</button>
+ 
+			<ul>
+			<li ng-repeat="contact in emails"> {{ contact }} </li>
+			</ul>
+ 
+		</div>
+
+         <!-- AngularJS Controller -->
+         <h3 id="cont_demo">AngularJS Controller form</h3>
+         <div  ng-controller="ContactController">
+				<form class="well">
+					<label>EmpId</label> 
+					<input type="text" ng-model="empid"/>
+					<label>Name</label> 
+					<input type="text" ng-model="name"/>
+				    <label>Email</label> 
+					<input type="text" ng-model="email"/>
+					<label>Vnet</label> 
+					<input type="text" ng-model="vnet"/>
+					<br/>
+					<input type="hidden" ng-model="id" />
+					<input type="button" value="Save" ng-click="saveContact()" class="btn btn-primary"/>
+				</form>
+				<table class="table table-striped table-bordered">
+					<thead> 
+						<tr>
+							<th>Emp ID</th>
+							<th>Name</th>
+							<th>Email</th>
+							<th>Vnet</th>
+							<th>Action</th>
+						</tr>
+					</thead>
+					<tbody>
+						<tr ng-repeat="contact in contacts">
+							<td>{{ contact.empid }}</td>
+							<td>{{ contact.name }}</td>
+							<td>{{ contact.email }}</td>
+							<td>{{ contact.vnet }}</td>
+							<td>
+								<a  href="#cont_demo" ng-click="edit($index)">edit</a> | 
+								<a href="#cont_demo" ng-click="delete($index)">delete</a>
+							</td>
+						</tr>
+					</tbody>
+				</table>    
+			</div>
+    </div>        
+ </div>
+ </body>
+</html>
